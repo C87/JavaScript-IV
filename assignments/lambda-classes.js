@@ -30,6 +30,21 @@ class Instructor extends Person {
     grade(student, subject) {
         console.log(`${student.name} receives a perfect score on ${subject}`);
     }
+
+    gradeStudent(student, cb) {
+        if (student.grade > 70) return cb(`${student.name} has already graduated`);
+        let isGoodResult = Math.round(Math.random());
+
+        if (isGoodResult) {
+            student.grade += 10;
+            console.log(`Good work ${student.name}. Your grade is now ${student.grade}`);
+        } else {
+            student.grade -= 10;
+            console.log(`Try harder ${student.name}. Your grade is now ${student.grade}`);
+        }
+
+        cb(student.graduate(student));
+    }
 }
 
 // Student Subclass
@@ -39,6 +54,7 @@ class Student extends Person {
         super(props);
         this.previousBackground = props.previousBackground;
         this.className = props.className;
+        this.grade = props.grade;
         this.favSubjects = props.favSubjects;
     }
 
@@ -54,6 +70,14 @@ class Student extends Person {
 
     sprintChallenge(subject) {
         console.log(`${this.name} has begun sprint challenge on ${subject}`);
+    }
+
+    graduate(student) {
+        if (student.grade > 70) {
+            return `Congratulations ${student.name} you have officially graduated Lambda School!!`;
+        } else {
+            return `Keep them assignments coming ${student.name}`;
+        }
     }
 }
 
@@ -75,7 +99,7 @@ class ProjectManager extends Instructor {
     }
 }
 
-// Instrucotr Instance
+// Instructor Instance
 
 const josh = new Instructor({
     name: 'Josh Knell',
@@ -107,6 +131,7 @@ const shaun = new Student({
     gender: 'Male',
     previousBackground: 'Formula 1 Trader',
     className: 'Web17',
+    grade: 50,
     favSubjects: [
         'Preprocessing I',
         'Preprocessing II',
@@ -121,6 +146,7 @@ const jeremiah = new Student({
     gender: 'Male',
     previousBackground: 'Navy',
     className: 'Web17',
+    grade: 80,
     favSubjects: [
         'JavaScript I',
         'JavaScript II',
@@ -136,6 +162,7 @@ const vlad = new Student({
     gender: 'Male',
     previousBackground: 'Student',
     className: 'Web17',
+    grade: 66,
     favSubjects: [
         'Git for Web Development',
         'Responsive Design II',
@@ -168,9 +195,14 @@ console.log(cameron.specialty); // Introduction to User Interface and Git
 josh.grade(shaun, 'Responsive Design I'); // Shaun Carmody receives a perfect score on Responsive Design I
 cameron.demo('Preprocessing I'); // Today we are learning about Preprocessing I
 
+josh.gradeStudent(shaun, says => console.log(says));
+josh.gradeStudent(shaun, says => console.log(says));
+josh.gradeStudent(shaun, says => console.log(says));
+josh.gradeStudent(shaun, says => console.log(says));
+
 
 // Student
-
+console.log(shaun);
 console.log(vlad.location); // Romania
 console.log(shaun.previousBackground); // Formula 1 Trader
 console.log(jeremiah.className); // Web17
@@ -188,3 +220,9 @@ console.log(phil.age); // 24
 
 phil.standUp('#Async_Phil'); // Phil Hart announces to #Async_Phil, @channel standy times!​​​​​
 phil.debugsCode(vlad, 'User Interface I'); // Phil Hart debugs Vladimir Turcan's code on User Interface I
+
+
+phil.gradeStudent(vlad, says => console.log(says));
+phil.gradeStudent(vlad, says => console.log(says));
+phil.gradeStudent(vlad, says => console.log(says));
+phil.gradeStudent(vlad, says => console.log(says));
